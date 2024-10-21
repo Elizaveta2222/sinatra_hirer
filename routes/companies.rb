@@ -1,6 +1,7 @@
 require 'sinatra/namespace'
 require 'sinatra'
 require 'sinatra/base'
+
 namespace '/api/v1' do
       # All companies, filtered
       # get 'http://localhost:4567/companies?name=Mo
@@ -36,5 +37,13 @@ namespace '/api/v1' do
       post '/companies' do
             company = Company.create(params)
             company.nil? ? [].to_json : company.values.to_json
+      end
+
+      get '/company/:id' do
+            company = Company.where(id: params[:id]).first
+            halt(404, { message:'Document Not Found', status: 404, params_id: params[:id]}.to_json) unless company
+            puts "company id = #{company.id.inspect} "
+            puts "company = #{company.values.inspect} "
+            company.values.to_json	# serialization
       end
 end

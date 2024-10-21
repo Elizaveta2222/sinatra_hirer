@@ -1,6 +1,7 @@
 require 'sinatra/namespace'
 require 'sinatra'
 require 'sinatra/base'
+
 namespace '/api/v1' do
   # get '/jobs -- http://localhost:4567/jobs?company=Spring
   # http://localhost:4567/jobs?place=Remo

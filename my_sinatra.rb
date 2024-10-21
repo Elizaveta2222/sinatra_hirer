@@ -2,11 +2,11 @@
 require 'sinatra/namespace'
 require 'sinatra'
 require 'sinatra/base'
-# module MyAppModule 
-
-    # class App < Sinatra::Base 
-        # register Sinatra::Namespace 
-		get '/' do
+module MyAppModule 
+    class App < Sinatra::Base 
+        register Sinatra::Namespace 
+		    
+           get '/' do
             'Hello My Sinatra - Easy and Wide world!'
            end
            
@@ -33,9 +33,8 @@ require 'sinatra/base'
                # /players/performances/2016
                # Параметры - params['splat'] -> ['performances'], params[:year] -> 2016
            end
-
- 	# end  
-# end 
+ 	end  
+end 
 
 
 

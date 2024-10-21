@@ -29,14 +29,6 @@ class Company < Sequel::Model
         company_jobs.empty? ? [].to_json : collection_to_api(company_jobs)
     end
 
-    # def self.by_location(location)
-    #     res = []
-    #     where(location: /#{location}/i) if location
-    #     puts "In by_location dataset mod: res = #{res.inspect}"
-    #     # res.empty? ? [].to_json : collection_to_api(res)
-    #     res.empty? ? [] : res
-    # end
-
     dataset_module do
         def by_location(location)
               puts 'In by_location dataset mod'

@@ -40,5 +40,4 @@ namespace '/api/v1' do
             puts "company = #{company.values.inspect} "
             company.values.to_json	# serialization
       end
-
 end

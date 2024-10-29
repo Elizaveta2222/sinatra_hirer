@@ -1,8 +1,62 @@
-get '/applies_read' do
-    collection_to_api(Apply.read)
+require 'sinatra/namespace'
+require 'sinatra'
+namespace '/api/v1' do
+
+    # создать новое заявление - от одного соискателя на вакансию (POST)
+    post '/applies' do
+        apply = Apply.create(params)
+        apply.nil? ? [].to_json : company.values.to_json
+    end
+
+    # # все заявления на одну вакансию одной компании (GET)
+    get '/applies_job/:id' do
+        job = Job.where(id: params[:id]).first
+        halt(404, { message:'Job Document Not Found', status: 404, params_id: params[:id]}.to_json) unless job
+        job_id = job.id
+        puts "job id = #{job_id.inspect}"
+
+        applies = Apply.where(job_id: job_id)
+        halt(404, { message:'Documents Not Found', status: 404, params_id: params[:id]}.to_json) unless applies
+        collection_to_api(applies)
+    end
+
+    # поиск данных одного заявления
+    get '/apply/:id' do
+        apply = Apply.where(id: params[:id]).first
+        halt(404, { message:'Document Not Found', status: 404, params_id: params[:id]}.to_json) unless apply
+        puts "apply id = #{apply.id.inspect} "
+        puts "apply = #{apply.values.inspect} "
+        apply.values.to_json	# serialization
+    end
+
+    # все заявления одного соискателя
+    get '/applies_geek/:name' do
+        geek = Geek.where(name: params[:name]).first
+        halt(404, { message:'Geek Document Not Found', status: 404, params_id: params[:id]}.to_json) unless geek
+        geek_id = geek.id
+        puts "geek id = #{geek_id.inspect}"
+       
+        applies = Apply.where(geek_id: geek_id)
+        halt(404, { message:'Documents Not Found', status: 404, params_id: params[:id]}.to_json) unless applies
+        collection_to_api(applies)
+    end
+
+    # все прочитанные/непрочитанные заявления 
+    get '/applies_read' do
+        collection_to_api(Apply.read)
+    end
+       
+    get '/applies_unread' do
+        collection_to_api(Apply.unread)
+    end
+
+    # все приглашенные/отклоненные заявления
+    get '/applies_invited' do
+        collection_to_api(Apply.invited)
+    end
+       
+    get '/applies_uninvited' do
+        collection_to_api(Apply.uninvited)
+    end
+
 end
-   
-get '/applies_unread' do
-    collection_to_api(Apply.unread)
-end
-   

@@ -21,5 +21,13 @@ class Apply < Sequel::Model
     def self.unread
         where(read: false)
     end
+
+    def self.invited
+        where(invited: true)
+    end
+    
+    def self.uninvited
+        where(invited: false)
+    end
 end
    
